@@ -5,6 +5,8 @@ import {
   CardStackIcon,
   DashboardIcon,
   SunIcon,
+  CheckIcon,
+  TimerIcon
 } from "@radix-ui/react-icons";
 import {
   AlertDialog,
@@ -186,15 +188,28 @@ export default function Dashboard() {
                     </TableCell>
                     <TableCell
                       className={
-                        index.status ? "text-green-500" : "text-amber-700"
+                        index.status ? "text-purple-500" : "text-amber-400"
                       }
                     >
-                      {index.status ? "Enviado" : "Em Processo"}
+                      {index.status ? (
+                        <div  className="flex flex-row items-center">
+                          <h1 className="">
+                            Enviado  
+                          </h1>
+                          <CheckIcon className="mx-2"/> 
+                        </div>
+                      ) : (
+                        <div  className="flex flex-row items-center">
+                        <h1 className="">
+                          Em processo  
+                        </h1>
+                        <TimerIcon className="mx-2"/> 
+                      </div>
+                      )}
                     </TableCell>
                     <TableCell>{index.payment}</TableCell>
                     <TableCell className="text-right">{index.value}</TableCell>
                   </TableRow>
-                  
                 </TableBody>
               );
             })}
