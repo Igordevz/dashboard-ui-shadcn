@@ -4,10 +4,11 @@ import {
   PersonIcon,
   CardStackIcon,
   DashboardIcon,
-  SunIcon,
   CheckIcon,
   TimerIcon,
+  ArrowRightIcon,
 } from "@radix-ui/react-icons";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,9 +46,19 @@ import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { works } from "./works";
 import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Switch } from "@/components/ui/switch";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { toast } from "sonner";
 export default function Dashboard() {
   const [isloading, setIsLoading] = useState(true);
-
   setTimeout(() => {
     setIsLoading(false);
   }, 2000);
@@ -69,11 +80,13 @@ export default function Dashboard() {
       <header className="border-b-2 border-white-200 h-[90px]  w-full flex items-center justify-between">
         <div className="flex flex-row items-center justify-center">
           <h1 className="text-primary mx-10 text-4xl">Dashboard</h1>
+          <Avatar>
+            <AvatarImage src="" />
+            <AvatarFallback>IM</AvatarFallback>
+          </Avatar>
         </div>
-        <div className="mx-10">
-          <button>
-            <SunIcon className="w-20 cursor-pointer" onClick={modeTheme} />
-          </button>
+        <div className="mx-10 flex items-center gap-2">
+          <Switch onClick={modeTheme} />
           <AlertDialog>
             <Dialog>
               <DialogTrigger asChild>
@@ -132,7 +145,9 @@ export default function Dashboard() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction>Confirmar</AlertDialogAction>
+                <AlertDialogAction className="bg-red-500 hover:bg-red-300">
+                  Confirmar
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -142,14 +157,14 @@ export default function Dashboard() {
         <div className="flex w-full items-center justify-center flex-wrap flex-row  my-6 gap-8">
           {isloading ? (
             <>
-              <Skeleton className="w-1/5 min-w-[230px] h-[200px]" />
-              <Skeleton className="w-1/5 min-w-[230px] h-[200px]" />
-              <Skeleton className="w-1/5 min-w-[230px] h-[200px]" />
-              <Skeleton className="w-1/5 min-w-[230px] h-[200px]" />
+              <Skeleton className="w-[22%] min-w-[230px] h-[200px]" />
+              <Skeleton className="w-[22%] min-w-[230px] h-[200px]" />
+              <Skeleton className="w-[22%] min-w-[230px] h-[200px]" />
+              <Skeleton className="w-[22%] min-w-[230px] h-[200px]" />
             </>
           ) : (
             <>
-              <div className="flex w-1/5 min-w-[230px] py-10 rounded-xl border flex-col  justify-center ">
+              <div className="flex w-[22%] min-w-[230px] py-10 rounded-xl border flex-col  justify-center ">
                 <div className="flex w-full  justify-between">
                   {" "}
                   <h1 className="mx-4">Total Revenue</h1>
@@ -161,7 +176,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="flex w-1/5 min-w-[230px] py-10 rounded-xl border flex-col  justify-center ">
+              <div className="flex w-[22%] min-w-[230px] py-10 rounded-xl border flex-col  justify-center ">
                 <div className="flex w-full  justify-between">
                   {" "}
                   <h1 className="mx-4">subscriptions</h1>
@@ -175,7 +190,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="flex w-1/5 min-w-[230px] py-10 rounded-xl border flex-col  justify-center ">
+              <div className="flex w-[22%] min-w-[230px] py-10 rounded-xl border flex-col  justify-center ">
                 <div className="flex w-full  justify-between">
                   {" "}
                   <h1 className="mx-4">Sales</h1>
@@ -188,7 +203,7 @@ export default function Dashboard() {
                   <p className=" text-neutral-500">+19% from last month</p>
                 </div>
               </div>
-              <div className="flex w-1/5 min-w-[230px] py-10 rounded-xl border flex-col  justify-center ">
+              <div className="flex w-[22%] min-w-[230px] py-10 rounded-xl border flex-col  justify-center ">
                 <div className="flex w-full  justify-between">
                   {" "}
                   <h1 className="mx-4">Active Now</h1>
@@ -258,6 +273,37 @@ export default function Dashboard() {
             </Table>
           )}
         </div>
+        <Card className="w-2/5 my-12">
+          <CardHeader>
+            <CardTitle>Card Title</CardTitle>
+            <CardDescription>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi quo
+              quam ipsam aliquid aut cupiditate eveniet, repellendus temporibus,
+              exercitationem ipsa officiis quis excepturi vero quibusdam maxime
+              labore error, facere debitis.
+            </CardDescription>
+          </CardHeader>
+          <CardFooter>
+            <Button variant="default" className="">
+              Avançar
+              <ArrowRightIcon className="mx-2 z-10  text-4xl" />
+            </Button>
+            <Button
+              variant="link"
+              onClick={() => {
+                toast("Event has been created", {
+                  description: "Sunday, December 03, 2023 at 9:00 AM",
+                  action: {
+                    label: "Undo",
+                    onClick: () => console.log("Undo"),
+                  },
+                });
+              }}
+            >
+              ver checkout
+            </Button>
+          </CardFooter>
+        </Card>
       </main>
     </>
   );
