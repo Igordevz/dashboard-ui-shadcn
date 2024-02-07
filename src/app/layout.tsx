@@ -16,10 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <body className={inter.className}>
         <ThemeProvider
-            defaultTheme="dark"
+            defaultTheme="system"
             attribute="class"
             enableSystem
             disableTransitionOnChange

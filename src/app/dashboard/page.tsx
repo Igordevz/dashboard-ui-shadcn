@@ -6,7 +6,7 @@ import {
   DashboardIcon,
   SunIcon,
   CheckIcon,
-  TimerIcon
+  TimerIcon,
 } from "@radix-ui/react-icons";
 import {
   AlertDialog,
@@ -20,6 +20,17 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import {
   Table,
   TableBody,
   TableCaption,
@@ -32,13 +43,14 @@ import {
 import { useTheme } from "next-themes";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Products } from "./products";
+import { works } from "./works";
+import { Input } from "@/components/ui/input";
 export default function Dashboard() {
   const [isloading, setIsLoading] = useState(true);
 
   setTimeout(() => {
     setIsLoading(false);
-  }, 4000);
+  }, 2000);
 
   const { setTheme, theme } = useTheme();
 
@@ -50,38 +62,63 @@ export default function Dashboard() {
     }
   }
 
-  const getAllProducts = Products;
+  const getAllWorks = works;
 
   return (
     <>
       <header className="border-b-2 border-white-200 h-[90px]  w-full flex items-center justify-between">
         <div className="flex flex-row items-center justify-center">
           <h1 className="text-primary mx-10 text-4xl">Dashboard</h1>
-          <a
-            href=""
-            className="mx-2 transition-all text-secondary-foreground   hover: text-neutral-500"
-          >
-            gráficos
-          </a>
-          <a
-            href=""
-            className="mx-2 transition-all  text-secondary-foreground  hover: text-neutral-500"
-          >
-            Products
-          </a>
-          <a
-            href=""
-            className="mx-2 transition-all  text-secondary-foreground  hover: text-neutral-500"
-          >
-            Settings
-          </a>
         </div>
         <div className="mx-10">
           <button>
             <SunIcon className="w-20 cursor-pointer" onClick={modeTheme} />
           </button>
           <AlertDialog>
-            <Button>Download</Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline">Share</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Insira alguns dados</DialogTitle>
+                  <DialogDescription>
+                    Preencha os dados para fazer o cadastro de uma nova empresa
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex items-center space-x-2">
+                  <div className="grid flex-1 gap-2">
+                    <label htmlFor="link" className="sr-only">
+                      Link
+                    </label>
+                    <span>Nome</span>
+                    <Input id="link" placeholder="Nome da empresa" />
+                    <span>Link de logo da empresa</span>
+                    <Input
+                      id="link"
+                      defaultValue="https://postimages.org/"
+                      placeholder="Link de logo da empresa "
+                    />
+                    <span>Email</span>
+                    <Input id="link" placeholder="Email " />
+                    <span>Código para empresa</span>
+                    <Input id="link" placeholder="Código para empresa " />
+                  </div>
+                </div>
+                <DialogFooter className="sm:justify-start ">
+                  <DialogClose className="w-full">
+                    <Button
+                      type="button"
+                      variant="default"
+                      className=" w-[50%]"
+                    >
+                      Criar
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+
             <AlertDialogTrigger className="mx-4">Sair</AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -151,7 +188,6 @@ export default function Dashboard() {
                   <p className=" text-neutral-500">+19% from last month</p>
                 </div>
               </div>
-
               <div className="flex w-1/5 min-w-[230px] py-10 rounded-xl border flex-col  justify-center ">
                 <div className="flex w-full  justify-between">
                   {" "}
@@ -170,51 +206,57 @@ export default function Dashboard() {
         </div>
 
         <div className="flex w-[85%]">
-          <Table className="w-[100%]">
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Código de pedido</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>método de pagamento</TableHead>
-                <TableHead className="text-right">Valor</TableHead>
-              </TableRow>
-            </TableHeader>
-            {getAllProducts.map((index) => {
-              return (
-                <TableBody>
-                  <TableRow>
-                    <TableCell className="font-medium">
-                      {index.codding}
-                    </TableCell>
-                    <TableCell
-                      className={
-                        index.status ? "text-purple-500" : "text-amber-400"
-                      }
-                    >
-                      {index.status ? (
-                        <div  className="flex flex-row items-center">
-                          <h1 className="">
-                            Enviado  
-                          </h1>
-                          <CheckIcon className="mx-2"/> 
-                        </div>
-                      ) : (
-                        <div  className="flex flex-row items-center">
-                        <h1 className="">
-                          Em processo  
-                        </h1>
-                        <TimerIcon className="mx-2"/> 
-                      </div>
-                      )}
-                    </TableCell>
-                    <TableCell>{index.payment}</TableCell>
-                    <TableCell className="text-right">{index.value}</TableCell>
-                  </TableRow>
-                </TableBody>
-              );
-            })}
-            <TableCaption>Pedidos dos clientes</TableCaption>
-          </Table>
+          {isloading ? (
+            <>
+              <Skeleton className="w-[100%] h-[200px]" />
+            </>
+          ) : (
+            <Table className="w-[100%]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Código de pedido</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>método de pagamento</TableHead>
+                  <TableHead className="text-right">Valor</TableHead>
+                </TableRow>
+              </TableHeader>
+
+              {getAllWorks.map((index) => {
+                return (
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-medium">
+                        {index.work}
+                      </TableCell>
+                      <TableCell
+                        className={
+                          index.status ? "text-purple-500" : "text-amber-400"
+                        }
+                      >
+                        {index.status ? (
+                          <div className="flex flex-row items-center">
+                            <h1 className="">Assinado</h1>
+                            <CheckIcon className="mx-2" />
+                          </div>
+                        ) : (
+                          <div className="flex flex-row items-center">
+                            <h1 className="">Aguardando pagamento</h1>
+                            <TimerIcon className="mx-2" />
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell>{index.payment}</TableCell>
+                      <TableCell className="text-right text-green-400">
+                        {index.value}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                );
+              })}
+
+              <TableCaption>Histórico de pedido dos clientes</TableCaption>
+            </Table>
+          )}
         </div>
       </main>
     </>
